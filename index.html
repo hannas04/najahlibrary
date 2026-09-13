@@ -319,6 +319,7 @@
   .book-dl:hover{ border-color:var(--gold); color:var(--gold); }
 
   .load-more-row{ text-align:center; margin-top:52px; }
+  .empty-note{ text-align:center; font-size:13.5px; padding:24px; grid-column:1/-1; }
 
   /* ============ CTA STRIP ============ */
   .cta-strip{
@@ -398,7 +399,7 @@
     <nav class="nav-links right">
       <li><a href="#about">About</a></li>
       <li><a href="#library">Search</a></li>
-      <li><a class="dash-link" href="#">Dashboard</a></li>
+      <li><a class="dash-link" href="admin.html">Dashboard</a></li>
     </nav>
 
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
@@ -413,7 +414,7 @@
       <li><a href="#author">Featured Author</a></li>
       <li><a href="#library">eBooks</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#">Dashboard</a></li>
+      <li><a href="admin.html">Dashboard</a></li>
     </ul>
   </div>
 </header>
@@ -441,7 +442,7 @@
       <a href="#quran" class="btn btn-outline-light">Read the Qur'an</a>
     </div>
     <div class="hero-stats">
-      <div><strong>420+</strong><span>books &amp; texts</span></div>
+      <div><strong id="statBookCount">420+</strong><span>books &amp; texts</span></div>
       <div><strong>authentic</strong><span>hadith, sourced</span></div>
       <div><strong>free</strong><span>always, for everyone</span></div>
     </div>
@@ -464,23 +465,7 @@
       <p>A few verses to sit with, and the complete mushaf whenever you're ready for it.</p>
     </div>
 
-    <div class="verse-list">
-      <div class="verse-card">
-        <p class="verse-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾</p>
-        <p class="verse-en">In the name of Allah, the Beneficent, the Merciful. Praise be to Allah, Lord of the Worlds.</p>
-        <span class="verse-ref">Surah Al-Fatiha, 1:1–2</span>
-      </div>
-      <div class="verse-card">
-        <p class="verse-arabic">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ</p>
-        <p class="verse-en">Allah — there is no god but He, the Ever-Living, the Sustainer of all existence. Neither drowsiness nor sleep overtakes Him.</p>
-        <span class="verse-ref">Surah Al-Baqarah, 2:255 (Ayat al-Kursi)</span>
-      </div>
-      <div class="verse-card">
-        <p class="verse-arabic">قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴿٤﴾</p>
-        <p class="verse-en">Say: He is Allah, the One. Allah, the Self-Sufficient Sustainer. He begets not, nor was He begotten. And there is none comparable to Him.</p>
-        <span class="verse-ref">Surah Al-Ikhlas, 112:1–4</span>
-      </div>
-    </div>
+    <div class="verse-list" id="verseList"></div>
 
     <div class="quran-download">
       <div>
@@ -502,69 +487,15 @@
       <p>Sayings of the Prophet ﷺ, from the authentic collections, on the virtue and duty of learning.</p>
     </div>
 
-    <div class="grid-2">
-      <div class="hadith-card">
-        <h3>Knowledge is an obligation</h3>
-        <p>The Prophet ﷺ taught that seeking sound knowledge is a duty resting on every believer, not a pursuit reserved for scholars alone.</p>
-        <div class="card-meta"><span>Sunan Ibn Majah</span></div>
-      </div>
-      <div class="hadith-card">
-        <h3>A path made easy to Paradise</h3>
-        <p>Whoever sets out on a path in search of knowledge, Allah makes easy for him a path toward Paradise.</p>
-        <div class="card-meta"><span>Sahih Muslim</span></div>
-      </div>
-      <div class="hadith-card">
-        <h3>The scholar and the worshipper</h3>
-        <p>The one with knowledge who acts on it was likened to the full moon among the stars — a light that others navigate by.</p>
-        <div class="card-meta"><span>Sunan Abu Dawood</span></div>
-      </div>
-      <div class="hadith-card">
-        <h3>Pass it on, however little</h3>
-        <p>The Prophet ﷺ instructed his companions to convey what they had learned from him, even if it was only a single verse.</p>
-        <div class="card-meta"><span>Sahih al-Bukhari</span></div>
-      </div>
-    </div>
+    <div class="grid-2" id="hadithGrid"></div>
     <p style="text-align:center; font-size:13px; margin-top:28px;">Meanings are paraphrased for readability; collection names are given for reference and further study.</p>
   </div>
 </section>
 
 <!-- ============ FEATURED AUTHOR ============ -->
 <section id="author">
-  <div class="wrap author-block">
-    <div class="author-portrait">
-      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#D9BE84" stroke-width="1" fill="none" opacity="0.85">
-          <path d="M50 4 L61 28 L88 28 L67 45 L75 72 L50 56 L25 72 L33 45 L12 28 L39 28 Z"/>
-        </g>
-      </svg>
-    </div>
-    <div>
-      <span class="author-eyebrow">مؤلف مميز</span>
-      <h2>Featured author: Sh. Ahmad Al-Farooq</h2>
-      <span class="author-role">Placeholder profile — replace from the dashboard once author accounts are live</span>
-      <p class="author-bio">A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard.</p>
-
-      <div class="author-books">
-        <div class="author-book-row">
-          <span class="title">The Quiet Heart</span>
-          <span class="tag">Tazkiyah</span>
-          <span class="tag">198 pp · English</span>
-          <a href="#" class="btn btn-outline">Download</a>
-        </div>
-        <div class="author-book-row">
-          <span class="title">Letters on Patience</span>
-          <span class="tag">Tazkiyah</span>
-          <span class="tag">142 pp · English</span>
-          <a href="#" class="btn btn-outline">Download</a>
-        </div>
-        <div class="author-book-row">
-          <span class="title">A Companion Through Ramadan</span>
-          <span class="tag">Worship</span>
-          <span class="tag">116 pp · English</span>
-          <a href="#" class="btn btn-outline">Download</a>
-        </div>
-      </div>
-    </div>
+  <div class="wrap author-block" id="authorBlock">
+    <!-- filled dynamically by JS -->
   </div>
 </section>
 
@@ -620,7 +551,7 @@
     <div class="footer-col">
       <h4>Account</h4>
       <ul>
-        <li><a href="#">Dashboard</a></li>
+        <li><a href="admin.html">Dashboard</a></li>
         <li><a href="#">Saved books</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
@@ -632,9 +563,53 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
   "use strict";
+
+  /* =====================================================================
+     PASTE THE SAME SUPABASE PROJECT DETAILS YOU PUT IN admin.html
+     Project Settings -> API in your Supabase dashboard.
+     The anon key is safe to expose publicly — it can only do what your
+     RLS policies allow (public read, authenticated-only write).
+  ===================================================================== */
+  var SUPABASE_URL = "";       // e.g. "https://abcdEFGH.supabase.co"
+  var SUPABASE_ANON_KEY = "";  // the "anon public" key
+
+  var db = (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  function escapeHtml(str){
+    return String(str == null ? '' : str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* ---------- Fallback content (shown if Supabase isn't connected yet,
+     or a table is empty) so the site never looks broken ---------- */
+  var FALLBACK_VERSES = [
+    { arabic_text:"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ﴿١﴾ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾", translation_en:"In the name of Allah, the Beneficent, the Merciful. Praise be to Allah, Lord of the Worlds.", reference:"Surah Al-Fatiha, 1:1–2" },
+    { arabic_text:"اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ", translation_en:"Allah — there is no god but He, the Ever-Living, the Sustainer of all existence. Neither drowsiness nor sleep overtakes Him.", reference:"Surah Al-Baqarah, 2:255 (Ayat al-Kursi)" },
+    { arabic_text:"قُلْ هُوَ اللَّهُ أَحَدٌ ﴿١﴾ اللَّهُ الصَّمَدُ ﴿٢﴾ لَمْ يَلِدْ وَلَمْ يُولَدْ ﴿٣﴾ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴿٤﴾", translation_en:"Say: He is Allah, the One. Allah, the Self-Sufficient Sustainer. He begets not, nor was He begotten. And there is none comparable to Him.", reference:"Surah Al-Ikhlas, 112:1–4" }
+  ];
+  var FALLBACK_HADITH = [
+    { title:"Knowledge is an obligation", body:"The Prophet ﷺ taught that seeking sound knowledge is a duty resting on every believer, not a pursuit reserved for scholars alone.", source_collection:"Sunan Ibn Majah" },
+    { title:"A path made easy to Paradise", body:"Whoever sets out on a path in search of knowledge, Allah makes easy for him a path toward Paradise.", source_collection:"Sahih Muslim" },
+    { title:"The scholar and the worshipper", body:"The one with knowledge who acts on it was likened to the full moon among the stars — a light that others navigate by.", source_collection:"Sunan Abu Dawood" },
+    { title:"Pass it on, however little", body:"The Prophet ﷺ instructed his companions to convey what they had learned from him, even if it was only a single verse.", source_collection:"Sahih al-Bukhari" }
+  ];
+  var FALLBACK_AUTHOR = {
+    name:"Sh. Ahmad Al-Farooq",
+    role:"Placeholder profile — add real authors from the dashboard",
+    bio:"A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard."
+  };
+  var FALLBACK_BOOKS = [
+    { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D" },
+    { title:"Riyad as-Saliheen", author_name:"Imam al-Nawawi", language:"Arabic/English", pages:612, format:"PDF · EPUB", cover_color:"#8A5A22" },
+    { title:"Kitab at-Tawheed", author_name:"Muhammad ibn Abd al-Wahhab", language:"English", pages:214, format:"PDF", cover_color:"#2C5D4B" },
+    { title:"The Fiqh of Worship", author_name:"Ibn Rushd (adapted)", language:"English", pages:340, format:"PDF", cover_color:"#7A6B2E" }
+  ];
 
   /* ---------- Nav scroll shadow ---------- */
   var nav = document.getElementById('siteNav');
@@ -661,37 +636,104 @@
     });
   });
 
-  /* ---------- Book data ----------
-     Mirrors the fields the dashboard will manage per title, so the
-     public site can later read from the same source. */
-  var BOOKS = [
-    { title:"The Sealed Nectar", author:"Safi ur-Rahman al-Mubarakpuri", category:"seerah", language:"English", pages:528, format:"PDF", color:"#1B4B3D" },
-    { title:"Riyad as-Saliheen", author:"Imam al-Nawawi", category:"hadith", language:"Arabic/English", pages:612, format:"PDF · EPUB", color:"#8A5A22" },
-    { title:"Kitab at-Tawheed", author:"Muhammad ibn Abd al-Wahhab", category:"aqeedah", language:"English", pages:214, format:"PDF", color:"#2C5D4B" },
-    { title:"The Fiqh of Worship", author:"Ibn Rushd (adapted)", category:"fiqh", language:"English", pages:340, format:"PDF", color:"#7A6B2E" },
-    { title:"Purification of the Heart", author:"Hamza Yusuf", category:"tazkiyah", language:"English", pages:176, format:"EPUB", color:"#1F4B3D" },
-    { title:"Stories of the Prophets", author:"Ibn Kathir", category:"seerah", language:"Arabic/English", pages:480, format:"PDF", color:"#8A5A22" },
-    { title:"My First Qur'an Stories", author:"Saniyasnain Khan", category:"children", language:"English", pages:64, format:"PDF", color:"#2C5D4B" },
-    { title:"An-Nawawi's Forty Hadith", author:"Imam al-Nawawi", category:"hadith", language:"Arabic/English", pages:96, format:"PDF", color:"#7A6B2E" },
-    { title:"The Qur'an: A Brief Introduction", author:"Dr. Bilal Philips", category:"quran", language:"English", pages:150, format:"PDF", color:"#1B4B3D" },
-    { title:"The Fundamentals of Tawheed", author:"Bilal Philips", category:"aqeedah", language:"English", pages:200, format:"PDF", color:"#8A5A22" },
-    { title:"Fortress of the Muslim", author:"Sa'id ibn Ali ibn Wahf", category:"tazkiyah", language:"Arabic/English", pages:280, format:"PDF · EPUB", color:"#2C5D4B" },
-    { title:"Kids' Guide to Salah", author:"Noor Publishing", category:"children", language:"English", pages:48, format:"PDF", color:"#7A6B2E" }
-  ];
+  /* =====================================================================
+     QUR'AN VERSES
+  ===================================================================== */
+  function renderVerses(list){
+    var el = document.getElementById('verseList');
+    el.innerHTML = list.map(function(v){
+      return '<div class="verse-card">' +
+        '<p class="verse-arabic">' + v.arabic_text + '</p>' +
+        '<p class="verse-en">' + escapeHtml(v.translation_en) + '</p>' +
+        '<span class="verse-ref">' + escapeHtml(v.reference || '') + '</span>' +
+      '</div>';
+    }).join('');
+  }
 
+  function loadVerses(){
+    if(!db){ renderVerses(FALLBACK_VERSES); return; }
+    db.from('quran_verses').select('*').order('sort_order', { ascending:true }).then(function(res){
+      var rows = (!res.error && res.data && res.data.length) ? res.data : FALLBACK_VERSES;
+      renderVerses(rows);
+    });
+  }
+
+  /* =====================================================================
+     HADITH
+  ===================================================================== */
+  function renderHadith(list){
+    var el = document.getElementById('hadithGrid');
+    el.innerHTML = list.map(function(h){
+      return '<div class="hadith-card">' +
+        '<h3>' + escapeHtml(h.title) + '</h3>' +
+        '<p>' + escapeHtml(h.body) + '</p>' +
+        '<div class="card-meta"><span>' + escapeHtml(h.source_collection || '') + '</span></div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function loadHadith(){
+    if(!db){ renderHadith(FALLBACK_HADITH); return; }
+    db.from('hadiths').select('*').order('sort_order', { ascending:true }).then(function(res){
+      var rows = (!res.error && res.data && res.data.length) ? res.data : FALLBACK_HADITH;
+      renderHadith(rows);
+    });
+  }
+
+  /* =====================================================================
+     FEATURED AUTHOR
+  ===================================================================== */
+  var STAR_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
+    '<g stroke="#D9BE84" stroke-width="1" fill="none" opacity="0.85">' +
+    '<path d="M50 4 L61 28 L88 28 L67 45 L75 72 L50 56 L25 72 L33 45 L12 28 L39 28 Z"/></g></svg>';
+
+  function renderAuthor(author, books){
+    var el = document.getElementById('authorBlock');
+    var rows = (books || []).map(function(b){
+      return '<div class="author-book-row">' +
+        '<span class="title">' + escapeHtml(b.title) + '</span>' +
+        '<span class="tag">' + escapeHtml(b.category || '') + '</span>' +
+        '<span class="tag">' + (b.pages || '') + ' pp · ' + escapeHtml(b.language || '') + '</span>' +
+        '<a href="' + (b.file_url ? escapeHtml(b.file_url) : '#') + '" class="btn btn-outline">Download</a>' +
+      '</div>';
+    }).join('');
+    el.innerHTML =
+      '<div class="author-portrait">' + STAR_SVG + '</div>' +
+      '<div>' +
+        '<span class="author-eyebrow">مؤلف مميز</span>' +
+        '<h2>Featured author: ' + escapeHtml(author.name) + '</h2>' +
+        '<span class="author-role">' + escapeHtml(author.role || '') + '</span>' +
+        '<p class="author-bio">' + escapeHtml(author.bio || '') + '</p>' +
+        '<div class="author-books">' + (rows || '<p style="font-size:14px;">No books linked to this author yet.</p>') + '</div>' +
+      '</div>';
+  }
+
+  function loadAuthor(){
+    if(!db){ renderAuthor(FALLBACK_AUTHOR, []); return; }
+    db.from('authors').select('*').eq('is_featured', true).limit(1).then(function(res){
+      if(res.error || !res.data || !res.data.length){ renderAuthor(FALLBACK_AUTHOR, []); return; }
+      var author = res.data[0];
+      db.from('books').select('*').eq('author_name', author.name).then(function(bookRes){
+        renderAuthor(author, (!bookRes.error && bookRes.data) ? bookRes.data : []);
+      });
+    });
+  }
+
+  /* =====================================================================
+     BOOKS / LIBRARY GRID
+  ===================================================================== */
   var grid = document.getElementById('bookGrid');
   var PAGE_SIZE = 8;
   var visibleCount = PAGE_SIZE;
+  var ALL_BOOKS = [];
 
-  function initials(title){
-    return title.trim().charAt(0).toUpperCase();
-  }
+  function initials(title){ return title.trim().charAt(0).toUpperCase(); }
 
-  function renderCard(book){
+  function renderBookCard(book){
     var card = document.createElement('div');
     card.className = 'book-card';
     card.innerHTML =
-      '<div class="book-cover" style="background:' + book.color + '">' +
+      '<div class="book-cover" style="background:' + (book.cover_color || '#1B4B3D') + '">' +
         '<svg class="pattern" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
           '<g stroke="#F6F2E4" stroke-width="1" fill="none">' +
             '<path d="M50 8 L60 30 L84 30 L65 45 L72 70 L50 56 L28 70 L35 45 L16 30 L40 30 Z"/>' +
@@ -699,23 +741,28 @@
         '</svg>' +
         '<span class="glyph">' + initials(book.title) + '</span>' +
       '</div>' +
-      '<span class="book-title">' + book.title + '</span>' +
-      '<span class="book-author">' + book.author + '</span>' +
+      '<span class="book-title">' + escapeHtml(book.title) + '</span>' +
+      '<span class="book-author">' + escapeHtml(book.author_name) + '</span>' +
       '<div class="book-meta">' +
-        '<span>' + book.language + '</span>' +
-        '<span>' + book.pages + ' pp</span>' +
+        '<span>' + escapeHtml(book.language || '') + '</span>' +
+        '<span>' + (book.pages || '') + ' pp</span>' +
       '</div>' +
-      '<a href="#" class="book-dl">Download (' + book.format + ')</a>';
+      '<a href="' + (book.file_url ? escapeHtml(book.file_url) : '#') + '" class="book-dl">Download (' + escapeHtml(book.format || 'PDF') + ')</a>';
     return card;
   }
 
   function renderGrid(){
     grid.innerHTML = '';
-    var toShow = BOOKS.slice(0, visibleCount);
-    toShow.forEach(function(b){ grid.appendChild(renderCard(b)); });
+    if(!ALL_BOOKS.length){
+      grid.innerHTML = '<p class="empty-note">No eBooks yet — add your first one from the dashboard.</p>';
+      document.getElementById('loadMoreBtn').style.display = 'none';
+      return;
+    }
+    var toShow = ALL_BOOKS.slice(0, visibleCount);
+    toShow.forEach(function(b){ grid.appendChild(renderBookCard(b)); });
 
     var loadMoreBtn = document.getElementById('loadMoreBtn');
-    loadMoreBtn.style.display = visibleCount >= BOOKS.length ? 'none' : 'inline-flex';
+    loadMoreBtn.style.display = visibleCount >= ALL_BOOKS.length ? 'none' : 'inline-flex';
   }
 
   document.getElementById('loadMoreBtn').addEventListener('click', function(){
@@ -723,7 +770,21 @@
     renderGrid();
   });
 
-  renderGrid();
+  function loadBooks(){
+    if(!db){ ALL_BOOKS = FALLBACK_BOOKS; renderGrid(); return; }
+    db.from('books').select('*').order('created_at', { ascending:false }).then(function(res){
+      ALL_BOOKS = (!res.error && res.data && res.data.length) ? res.data : FALLBACK_BOOKS;
+      var countEl = document.getElementById('statBookCount');
+      if(countEl && !res.error && res.data) countEl.textContent = res.data.length + '+';
+      renderGrid();
+    });
+  }
+
+  /* ---------- Kick everything off ---------- */
+  loadVerses();
+  loadHadith();
+  loadAuthor();
+  loadBooks();
 
 })();
 </script>
