@@ -467,14 +467,14 @@
 
     <div class="verse-list" id="verseList"></div>
 
-    <div class="quran-download">
+    <!-- <div class="quran-download">
       <div>
         <h3>Download the complete Qur'an</h3>
         <p>The full Arabic mushaf in the standard Uthmani script, all 114 surahs.</p>
         <div class="card-meta"><span>PDF</span><span>Arabic</span><span>604 pages</span></div>
       </div>
-      <a href="#" class="btn btn-solid">Download full Qur'an</a>
-    </div>
+      <a href="pdfs/quran-brief.pdf" class="btn btn-solid" download>Download full Qur'an</a>
+    </div> -->
   </div>
 </section>
 
@@ -599,10 +599,10 @@
     bio:"A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard."
   };
   var FALLBACK_BOOKS = [
-    { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D" },
-    { title:"Riyad as-Saliheen", author_name:"Imam al-Nawawi", language:"Arabic/English", pages:612, format:"PDF · EPUB", cover_color:"#8A5A22" },
-    { title:"Kitab at-Tawheed", author_name:"Muhammad ibn Abd al-Wahhab", language:"English", pages:214, format:"PDF", cover_color:"#2C5D4B" },
-    { title:"The Fiqh of Worship", author_name:"Ibn Rushd (adapted)", language:"English", pages:340, format:"PDF", cover_color:"#7A6B2E" }
+    { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D", file_url:"pdfs/sealed-nectar.pdf" },
+    { title:"Riyad as-Saliheen", author_name:"Imam al-Nawawi", language:"Arabic/English", pages:612, format:"PDF · EPUB", cover_color:"#8A5A22", file_url:"pdfs/riyad-as-saliheen.pdf" },
+    { title:"Kitab at-Tawheed", author_name:"Muhammad ibn Abd al-Wahhab", language:"English", pages:214, format:"PDF", cover_color:"#2C5D4B", file_url:"pdfs/kitab-at-tawheed.pdf" },
+    { title:"The Fiqh of Worship", author_name:"Ibn Rushd (adapted)", language:"English", pages:340, format:"PDF", cover_color:"#7A6B2E", file_url:"pdfs/fiqh-of-worship.pdf" }
   ];
 
   /* ---------- Nav scroll shadow ---------- */
@@ -684,11 +684,13 @@
   function renderAuthor(author, books){
     var el = document.getElementById('authorBlock');
     var rows = (books || []).map(function(b){
+      var href = b.file_url ? escapeHtml(b.file_url) : '#';
+      var downloadAttr = b.file_url ? ' download' : '';
       return '<div class="author-book-row">' +
         '<span class="title">' + escapeHtml(b.title) + '</span>' +
         '<span class="tag">' + escapeHtml(b.category || '') + '</span>' +
         '<span class="tag">' + (b.pages || '') + ' pp · ' + escapeHtml(b.language || '') + '</span>' +
-        '<a href="' + (b.file_url ? escapeHtml(b.file_url) : '#') + '" class="btn btn-outline">Download</a>' +
+        '<a href="' + href + '" class="btn btn-outline"' + downloadAttr + '>Download</a>' +
       '</div>';
     }).join('');
     el.innerHTML =
@@ -726,6 +728,8 @@
   function renderBookCard(book){
     var card = document.createElement('div');
     card.className = 'book-card';
+    var href = book.file_url ? escapeHtml(book.file_url) : '#';
+    var downloadAttr = book.file_url ? ' download' : '';
     card.innerHTML =
       '<div class="book-cover" style="background:' + (book.cover_color || '#1B4B3D') + '">' +
         '<svg class="pattern" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
@@ -741,7 +745,7 @@
         '<span>' + escapeHtml(book.language || '') + '</span>' +
         '<span>' + (book.pages || '') + ' pp</span>' +
       '</div>' +
-      '<a href="' + (book.file_url ? escapeHtml(book.file_url) : '#') + '" class="book-dl">Download (' + escapeHtml(book.format || 'PDF') + ')</a>';
+      '<a href="' + href + '" class="book-dl"' + downloadAttr + '>Download (' + escapeHtml(book.format || 'PDF') + ')</a>';
     return card;
   }
 
