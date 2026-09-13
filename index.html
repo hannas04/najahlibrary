@@ -568,14 +568,8 @@
 (function(){
   "use strict";
 
-  /* =====================================================================
-     PASTE THE SAME SUPABASE PROJECT DETAILS YOU PUT IN admin.html
-     Project Settings -> API in your Supabase dashboard.
-     The anon key is safe to expose publicly — it can only do what your
-     RLS policies allow (public read, authenticated-only write).
-  ===================================================================== */
-  var SUPABASE_URL = "";       // e.g. "https://abcdEFGH.supabase.co"
-  var SUPABASE_ANON_KEY = "";  // the "anon public" key
+  var SUPABASE_URL = "https://exlgdkjjcwcawzstaooi.supabase.co";       // e.g. "https://abcdEFGH.supabase.co"
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4bGdka2pqY3djYXd6c3Rhb29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyNTc2OTAsImV4cCI6MjEwNDgzMzY5MH0.i33ciFHGLC9WH4LUhcjhRc8QvlmU9qXtOiN6KL1YuCQ";  // the "anon public" key
 
   var db = (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
