@@ -602,7 +602,8 @@
     name:"Sadiq Abdulbasit Ozovehe",
     role:"Featured scholar and author",
     bio:"A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard.",
-    image_url:"c:\Users\popoola ademola\Documents\GitHub\najahlibrary\author.jpeg"
+    image_url:"c:\Users\popoola ademola\Documents\GitHub\najahlibrary\author.jpeg",
+    email:"sadiqabdulbasit@gmail.com"
   };
   var FALLBACK_BOOKS = [
     { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D", file_url:"pdfs/sealed-nectar.pdf" },
@@ -683,18 +684,21 @@
   /* =====================================================================
      FEATURED AUTHOR
   ===================================================================== */
+  var CATEGORY_LABEL = { quran:"Qur'an", hadith:"Hadith", fiqh:"Fiqh", seerah:"Seerah", aqeedah:"Aqeedah", tazkiyah:"Tazkiyah", children:"Children", general:"General" };
+
   function renderAuthor(author, books){
     var el = document.getElementById('authorBlock');
     var rows = (books || []).map(function(b){
       var href = b.file_url ? escapeHtml(b.file_url) : '#';
       var downloadAttr = b.file_url ? ' download' : '';
+      var categoryText = CATEGORY_LABEL[b.category] || (b.category ? b.category.replace(/_/g, ' ') : 'General');
       var thumb = b.cover_image_url
         ? '<img class="author-book-thumb" src="' + escapeHtml(b.cover_image_url) + '" alt="">'
         : '<span class="author-book-thumb" style="background:' + escapeHtml(b.cover_color||'#1B4B3D') + ';"></span>';
       return '<div class="author-book-row">' +
         thumb +
         '<span class="title">' + escapeHtml(b.title) + '</span>' +
-        '<span class="tag">' + escapeHtml(b.category || '') + '</span>' +
+        '<span class="tag">' + escapeHtml(categoryText) + '</span>' +
         '<span class="tag">' + (b.pages || '') + ' pp · ' + escapeHtml(b.language || '') + '</span>' +
         '<a href="' + href + '" class="btn btn-outline"' + downloadAttr + '>Download</a>' +
       '</div>';
@@ -702,6 +706,10 @@
     var portraitSrc = author && author.image_url
       ? author.image_url
       : 'author.jpeg';
+    var emailLink = author && author.email ? 'mailto:' + author.email : 'mailto:sadiqabdulbasit@gmail.com';
+    var authorBooksBlock = rows
+      ? '<div class="author-books">' + rows + '</div>'
+      : '<div class="author-books"><a href="' + emailLink + '" class="btn btn-outline">Email author</a></div>';
     el.innerHTML =
       '<div class="author-portrait">' +
         '<img src="' + escapeHtml(portraitSrc) + '" alt="' + escapeHtml(author && author.name ? author.name : 'Featured author') + '" />' +
@@ -711,7 +719,7 @@
         '<h2>Featured author: ' + escapeHtml(author.name) + '</h2>' +
         '<span class="author-role">' + escapeHtml(author.role || '') + '</span>' +
         '<p class="author-bio">' + escapeHtml(author.bio || '') + '</p>' +
-        '<div class="author-books">' + (rows || '<p style="font-size:14px;">No books linked to this author yet.</p>') + '</div>' +
+        authorBooksBlock +
       '</div>';
   }
 
