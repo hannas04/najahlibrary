@@ -757,6 +757,7 @@
           '</g>' +
         '</svg>' +
         '<span class="glyph">' + initials(book.title) + '</span>';
+    var categoryText = CATEGORY_LABEL[book.category] || (book.category ? book.category.replace(/_/g, ' ') : 'General');
     card.innerHTML =
       '<div class="book-cover" style="background:' + (book.cover_color || '#1B4B3D') + '">' +
         coverInner +
@@ -764,6 +765,7 @@
       '<span class="book-title">' + escapeHtml(book.title) + '</span>' +
       '<span class="book-author">' + escapeHtml(book.author_name) + '</span>' +
       '<div class="book-meta">' +
+        '<span>' + escapeHtml(categoryText) + '</span>' +
         '<span>' + escapeHtml(book.language || '') + '</span>' +
         '<span>' + (book.pages || '') + ' pp</span>' +
       '</div>' +
