@@ -308,11 +308,19 @@
     display:flex; align-items:center; justify-content:center;
     border:1px solid var(--line);
   }
-  .book-cover img{ width:100%; height:100%; object-fit:cover; }
+  .book-cover img{ width:100%; height:100%; object-fit:cover; cursor:pointer; }
   .book-cover .glyph{
     font-family:var(--serif); font-size:44px; color:rgba(255,255,255,0.92);
   }
   .book-cover .pattern{ position:absolute; inset:0; opacity:0.35; }
+  .book-cover{ cursor:pointer; }
+  .image-modal{ position:fixed; inset:0; background:rgba(12,24,20,0.82); display:flex; align-items:center; justify-content:center; z-index:200; padding:24px; }
+  .image-modal.hidden{ display:none; }
+  .image-modal-content{ position:relative; width:min(92vw, 560px); background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 26px 60px rgba(0,0,0,0.25); }
+  .image-modal-content .modal-close{ position:absolute; top:12px; right:12px; width:36px; height:36px; border:none; border-radius:50%; background:rgba(0,0,0,0.6); color:#fff; font-size:20px; cursor:pointer; }
+  .image-modal-content .modal-cover{ width:100%; aspect-ratio:3/4.2; background:var(--primary); display:flex; align-items:center; justify-content:center; }
+  .image-modal-content .modal-cover img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .image-modal-content .modal-cover .glyph{ font-family:var(--serif); font-size:72px; color:rgba(255,255,255,0.92); }
   .book-title{ font-family:var(--serif); font-size:16px; margin-top:16px; color:var(--ink); }
   .book-author{ font-size:13.5px; color:var(--ink-soft); margin-top:4px; }
   .book-meta{ font-size:12px; color:var(--ink-soft); margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
@@ -785,9 +793,41 @@
     var stored = getStoredRatings();
     var entry = stored[key] || { total:0, count:0 };
     var avg = entry.count ? (entry.total / entry.count) : 0;
-    var authorBoost = Math.floor(entry.count / 10);
-    var display = Math.min(5, avg + authorBoost);
-    return { key:key, total:entry.total, count:entry.count, display:display };
+    var bonusStars = Math.floor(entry.count / 10);
+    var display = Math.min(5, avg + bonusStars);
+    return { key:key, total:entry.total, count:entry.count, avg:avg, bonus:bonusStars, display:display };
+  }
+
+  function openBookImage(book){
+    var modal = document.getElementById('bookImageModal');
+    if(!modal){
+      modal = document.createElement('div');
+      modal.id = 'bookImageModal';
+      modal.className = 'image-modal hidden';
+      modal.innerHTML = '<div class="image-modal-content"><button type="button" class="modal-close" aria-label="Close image">×</button><div class="modal-cover"></div></div>';
+      document.body.appendChild(modal);
+    }
+
+    var modalCover = modal.querySelector('.modal-cover');
+    var closeBtn = modal.querySelector('.modal-close');
+    modalCover.innerHTML = '';
+
+    if(book.cover_image_url){
+      var img = document.createElement('img');
+      img.src = book.cover_image_url;
+      img.alt = book.title || 'Book cover';
+      modalCover.appendChild(img);
+    }else{
+      var art = document.createElement('div');
+      art.className = 'glyph';
+      art.textContent = initials(book.title || 'B');
+      modalCover.style.background = book.cover_color || '#1B4B3D';
+      modalCover.appendChild(art);
+    }
+
+    modal.classList.remove('hidden');
+    closeBtn.onclick = function(){ modal.classList.add('hidden'); };
+    modal.onclick = function(e){ if(e.target === modal){ modal.classList.add('hidden'); } };
   }
 
   function renderBookCard(book){
@@ -809,7 +849,7 @@
       return '<button type="button" class="star-btn" data-value="' + value + '" aria-label="Rate ' + value + ' out of 5">★</button>';
     }).join('');
     card.innerHTML =
-      '<div class="book-cover" style="background:' + (book.cover_color || '#1B4B3D') + '">' +
+      '<div class="book-cover" style="background:' + (book.cover_color || '#1B4B3D') + '" data-book-title="' + escapeHtml(book.title || '') + '">' +
         coverInner +
       '</div>' +
       '<span class="book-title">' + escapeHtml(book.title) + '</span>' +
@@ -825,11 +865,14 @@
       '</div>' +
       '<a href="' + href + '" class="book-dl"' + downloadAttr + '>Download (' + escapeHtml(book.format || 'PDF') + ')</a>';
 
+    var coverEl = card.querySelector('.book-cover');
+    coverEl.addEventListener('click', function(){ openBookImage(book); });
+
     var buttons = card.querySelectorAll('.star-btn');
     buttons.forEach(function(button){
       var value = Number(button.getAttribute('data-value'));
-      var userRating = ratingSummary.count ? Math.round(ratingSummary.display) : 0;
-      if(value <= userRating){ button.classList.add('active'); }
+      var activeThreshold = Math.round(ratingSummary.display);
+      if(value <= activeThreshold){ button.classList.add('active'); }
       button.addEventListener('click', function(){
         var stored = getStoredRatings();
         var key = ratingSummary.key;
@@ -838,11 +881,12 @@
         current.count += 1;
         stored[key] = current;
         setStoredRatings(stored);
-        var updatedCard = button.closest('.book-card');
         var updatedSummary = getRatingSummary(book);
+        var updatedCard = button.closest('.book-card');
         updatedCard.querySelector('.rating-score').textContent = updatedSummary.display.toFixed(1) + '/5';
         updatedCard.querySelectorAll('.star-btn').forEach(function(star){
-          star.classList.toggle('active', Number(star.getAttribute('data-value')) <= Math.round(updatedSummary.display));
+          var starValue = Number(star.getAttribute('data-value'));
+          star.classList.toggle('active', starValue <= Math.round(updatedSummary.display));
         });
       });
     });
