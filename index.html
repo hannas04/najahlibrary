@@ -266,8 +266,11 @@
     background:linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 100%);
     position:relative; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--line);
   }
-  .author-portrait svg{ width:60%; opacity:0.9; }
+  .author-portrait img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
   .author-eyebrow{ font-family:var(--serif); color:var(--gold); font-size:15px; direction:rtl; margin-bottom:14px; display:block;}
   .author-block h2{ font-size:32px; margin-bottom:6px; }
   .author-role{ color:var(--ink-soft); font-size:14px; margin-bottom:22px; display:block; }
@@ -597,8 +600,9 @@
   ];
   var FALLBACK_AUTHOR = {
     name:"Sadiq Abdulbasit Ozovehe",
-    role:"Placeholder profile — add real authors from the dashboard",
-    bio:"A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard."
+    role:"Featured scholar and author",
+    bio:"A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard.",
+    image_url:"c:\Users\popoola ademola\Documents\GitHub\najahlibrary\author.jpeg"
   };
   var FALLBACK_BOOKS = [
     { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D", file_url:"pdfs/sealed-nectar.pdf" },
@@ -679,10 +683,6 @@
   /* =====================================================================
      FEATURED AUTHOR
   ===================================================================== */
-  var STAR_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-    '<g stroke="#D9BE84" stroke-width="1" fill="none" opacity="0.85">' +
-    '<path d="M50 4 L61 28 L88 28 L67 45 L75 72 L50 56 L25 72 L33 45 L12 28 L39 28 Z"/></g></svg>';
-
   function renderAuthor(author, books){
     var el = document.getElementById('authorBlock');
     var rows = (books || []).map(function(b){
@@ -699,8 +699,13 @@
         '<a href="' + href + '" class="btn btn-outline"' + downloadAttr + '>Download</a>' +
       '</div>';
     }).join('');
+    var portraitSrc = author && author.image_url
+      ? author.image_url
+      : 'author.jpeg';
     el.innerHTML =
-      '<div class="author-portrait">' + STAR_SVG + '</div>' +
+      '<div class="author-portrait">' +
+        '<img src="' + escapeHtml(portraitSrc) + '" alt="' + escapeHtml(author && author.name ? author.name : 'Featured author') + '" />' +
+      '</div>' +
       '<div>' +
         '<span class="author-eyebrow">مؤلف مميز</span>' +
         '<h2>Featured author: ' + escapeHtml(author.name) + '</h2>' +
