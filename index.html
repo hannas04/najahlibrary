@@ -274,12 +274,13 @@
   .author-bio{ font-size:15.5px; max-width:60ch; margin-bottom:32px; }
   .author-books{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line); }
   .author-book-row{
-    display:grid; grid-template-columns:1fr auto auto auto; gap:18px; align-items:center;
+    display:grid; grid-template-columns:auto 1fr auto auto auto; gap:18px; align-items:center;
     padding:18px 0; border-bottom:1px solid var(--line);
   }
   .author-book-row .title{ font-family:var(--serif); font-size:16.5px; color:var(--ink); }
   .author-book-row .tag{ font-size:12.5px; color:var(--ink-soft); }
   .author-book-row .btn{ padding:8px 16px; font-size:13px; }
+  .author-book-thumb{ width:30px; height:40px; object-fit:cover; border-radius:2px; border:1px solid var(--line); }
 
   /* ============ LIBRARY GRID ============ */
   .filter-row{
@@ -304,6 +305,7 @@
     display:flex; align-items:center; justify-content:center;
     border:1px solid var(--line);
   }
+  .book-cover img{ width:100%; height:100%; object-fit:cover; }
   .book-cover .glyph{
     font-family:var(--serif); font-size:44px; color:rgba(255,255,255,0.92);
   }
@@ -399,7 +401,7 @@
     <nav class="nav-links right">
       <li><a href="#about">About</a></li>
       <li><a href="#library">Search</a></li>
-      <li><a class="dash-link" href="admin.html">Dashboard</a></li>
+      <!-- <li><a class="dash-link" href="admin.html">Dashboard</a></li> -->
     </nav>
 
     <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
@@ -414,7 +416,7 @@
       <li><a href="#author">Featured Author</a></li>
       <li><a href="#library">eBooks</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="admin.html">Dashboard</a></li>
+      <!-- <li><a href="admin.html">Dashboard</a></li> -->
     </ul>
   </div>
 </header>
@@ -467,14 +469,14 @@
 
     <div class="verse-list" id="verseList"></div>
 
-    <div class="quran-download">
+    <!-- <div class="quran-download">
       <div>
         <h3>Download the complete Qur'an</h3>
         <p>The full Arabic mushaf in the standard Uthmani script, all 114 surahs.</p>
         <div class="card-meta"><span>PDF</span><span>Arabic</span><span>604 pages</span></div>
       </div>
-      <a href="#" class="btn btn-solid">Download full Qur'an</a>
-    </div>
+      <a href="pdfs/quran-brief.pdf" class="btn btn-solid" download>Download full Qur'an</a>
+    </div> -->
   </div>
 </section>
 
@@ -551,7 +553,7 @@
     <div class="footer-col">
       <h4>Account</h4>
       <ul>
-        <li><a href="admin.html">Dashboard</a></li>
+        <!-- <li><a href="admin.html">Dashboard</a></li> -->
         <li><a href="#">Saved books</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
@@ -559,7 +561,7 @@
   </div>
   <div class="footer-bottom wrap">
     <span>© 2026 Najah Library. Shared for the sake of benefit.</span>
-    <span>Built with HTML, CSS &amp; JavaScript</span>
+    <!-- <span>Built with HTML, CSS &amp; JavaScript</span> -->
   </div>
 </footer>
 
@@ -568,14 +570,8 @@
 (function(){
   "use strict";
 
-  /* =====================================================================
-     PASTE THE SAME SUPABASE PROJECT DETAILS YOU PUT IN admin.html
-     Project Settings -> API in your Supabase dashboard.
-     The anon key is safe to expose publicly — it can only do what your
-     RLS policies allow (public read, authenticated-only write).
-  ===================================================================== */
-  var SUPABASE_URL = "";       // e.g. "https://abcdEFGH.supabase.co"
-  var SUPABASE_ANON_KEY = "";  // the "anon public" key
+  var SUPABASE_URL = "https://exlgdkjjcwcawzstaooi.supabase.co";       // e.g. "https://abcdEFGH.supabase.co"
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4bGdka2pqY3djYXd6c3Rhb29pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkyNTc2OTAsImV4cCI6MjEwNDgzMzY5MH0.i33ciFHGLC9WH4LUhcjhRc8QvlmU9qXtOiN6KL1YuCQ";  // the "anon public" key
 
   var db = (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY)
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -600,15 +596,15 @@
     { title:"Pass it on, however little", body:"The Prophet ﷺ instructed his companions to convey what they had learned from him, even if it was only a single verse.", source_collection:"Sahih al-Bukhari" }
   ];
   var FALLBACK_AUTHOR = {
-    name:"Sh. Ahmad Al-Farooq",
+    name:"Sadiq Abdulbasit Ozovehe",
     role:"Placeholder profile — add real authors from the dashboard",
     bio:"A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard."
   };
   var FALLBACK_BOOKS = [
-    { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D" },
-    { title:"Riyad as-Saliheen", author_name:"Imam al-Nawawi", language:"Arabic/English", pages:612, format:"PDF · EPUB", cover_color:"#8A5A22" },
-    { title:"Kitab at-Tawheed", author_name:"Muhammad ibn Abd al-Wahhab", language:"English", pages:214, format:"PDF", cover_color:"#2C5D4B" },
-    { title:"The Fiqh of Worship", author_name:"Ibn Rushd (adapted)", language:"English", pages:340, format:"PDF", cover_color:"#7A6B2E" }
+    { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D", file_url:"pdfs/sealed-nectar.pdf" },
+    { title:"Riyad as-Saliheen", author_name:"Imam al-Nawawi", language:"Arabic/English", pages:612, format:"PDF · EPUB", cover_color:"#8A5A22", file_url:"pdfs/riyad-as-saliheen.pdf" },
+    { title:"Kitab at-Tawheed", author_name:"Muhammad ibn Abd al-Wahhab", language:"English", pages:214, format:"PDF", cover_color:"#2C5D4B", file_url:"pdfs/kitab-at-tawheed.pdf" },
+    { title:"The Fiqh of Worship", author_name:"Ibn Rushd (adapted)", language:"English", pages:340, format:"PDF", cover_color:"#7A6B2E", file_url:"pdfs/fiqh-of-worship.pdf" }
   ];
 
   /* ---------- Nav scroll shadow ---------- */
@@ -690,15 +686,17 @@
   function renderAuthor(author, books){
     var el = document.getElementById('authorBlock');
     var rows = (books || []).map(function(b){
+      var href = b.file_url ? escapeHtml(b.file_url) : '#';
+      var downloadAttr = b.file_url ? ' download' : '';
       var thumb = b.cover_image_url
-        ? '<img src="' + escapeHtml(b.cover_image_url) + '" alt="" style="width:28px;height:38px;object-fit:cover;border-radius:2px;border:1px solid var(--line);">'
-        : '';
+        ? '<img class="author-book-thumb" src="' + escapeHtml(b.cover_image_url) + '" alt="">'
+        : '<span class="author-book-thumb" style="background:' + escapeHtml(b.cover_color||'#1B4B3D') + ';"></span>';
       return '<div class="author-book-row">' +
-        (thumb ? thumb : '') +
+        thumb +
         '<span class="title">' + escapeHtml(b.title) + '</span>' +
         '<span class="tag">' + escapeHtml(b.category || '') + '</span>' +
         '<span class="tag">' + (b.pages || '') + ' pp · ' + escapeHtml(b.language || '') + '</span>' +
-        '<a href="' + (b.file_url ? escapeHtml(b.file_url) : '#') + '" class="btn btn-outline">Download</a>' +
+        '<a href="' + href + '" class="btn btn-outline"' + downloadAttr + '>Download</a>' +
       '</div>';
     }).join('');
     el.innerHTML =
@@ -736,8 +734,10 @@
   function renderBookCard(book){
     var card = document.createElement('div');
     card.className = 'book-card';
+    var href = book.file_url ? escapeHtml(book.file_url) : '#';
+    var downloadAttr = book.file_url ? ' download' : '';
     var coverInner = book.cover_image_url
-      ? '<img src="' + escapeHtml(book.cover_image_url) + '" alt="" style="width:100%;height:100%;object-fit:cover;">'
+      ? '<img src="' + escapeHtml(book.cover_image_url) + '" alt="">'
       : '<svg class="pattern" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
           '<g stroke="#F6F2E4" stroke-width="1" fill="none">' +
             '<path d="M50 8 L60 30 L84 30 L65 45 L72 70 L50 56 L28 70 L35 45 L16 30 L40 30 Z"/>' +
@@ -754,7 +754,7 @@
         '<span>' + escapeHtml(book.language || '') + '</span>' +
         '<span>' + (book.pages || '') + ' pp</span>' +
       '</div>' +
-      '<a href="' + (book.file_url ? escapeHtml(book.file_url) : '#') + '" class="book-dl">Download (' + escapeHtml(book.format || 'PDF') + ')</a>';
+      '<a href="' + href + '" class="book-dl"' + downloadAttr + '>Download (' + escapeHtml(book.format || 'PDF') + ')</a>';
     return card;
   }
 
