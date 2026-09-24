@@ -275,6 +275,8 @@
   .author-block h2{ font-size:32px; margin-bottom:6px; }
   .author-role{ color:var(--ink-soft); font-size:14px; margin-bottom:22px; display:block; }
   .author-bio{ font-size:15.5px; max-width:60ch; margin-bottom:32px; }
+  .author-email{ display:inline-flex; margin-top:0; margin-bottom:8px; color:var(--primary); font-size:14px; border-bottom:1px solid var(--gold); }
+  .author-email:hover{ color:var(--gold); }
   .author-books{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line); }
   .author-book-row{
     display:grid; grid-template-columns:auto 1fr auto auto auto; gap:18px; align-items:center;
@@ -348,6 +350,12 @@
 
   .load-more-row{ text-align:center; margin-top:52px; }
   .empty-note{ text-align:center; font-size:13.5px; padding:24px; grid-column:1/-1; }
+
+  /* ============ BOOK SUBMISSIONS ============ */
+  .submission-strip{ background:var(--primary-tint); border-top:1px solid var(--line); border-bottom:1px solid var(--line); text-align:center; }
+  .submission-strip .wrap{ max-width:680px; }
+  .submission-strip h2{ font-size:clamp(26px,3vw,34px); }
+  .submission-strip p{ max-width:56ch; margin:14px auto 26px; }
 
   /* ============ CTA STRIP ============ */
   .cta-strip{
@@ -550,6 +558,15 @@
   </div>
 </section>
 
+<!-- ============ BOOK SUBMISSIONS ============ -->
+<section class="submission-strip" id="submit-book">
+  <div class="wrap">
+    <h2>Share your Islamic book</h2>
+    <p>Would you like to make your book available in Najah Library? Reach out with the book details and upload information for review.</p>
+    <a href="mailto:najahelite@gmail.com?subject=Book%20upload%20submission" class="btn btn-solid">Email to upload your book</a>
+  </div>
+</section>
+
 <!-- ============ CTA STRIP ============ -->
 <section class="cta-strip" id="about">
   <div class="wrap" style="max-width:640px;">
@@ -579,7 +596,7 @@
       <ul>
         <li><a href="#about">Our approach</a></li>
         <li><a href="#author">Featured author</a></li>
-        <li><a href="#">Contribute a book</a></li>
+        <li><a href="#submit-book">Upload a book</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -593,7 +610,7 @@
   </div>
   <div class="footer-bottom wrap">
     <span>© 2026 Najah Library. Shared for the sake of benefit.</span>
-    <!-- <span>Built with HTML, CSS &amp; JavaScript</span> -->
+    <span><a href="mailto:abdulbaasitubaidullah@gmail.com">abdulbaasitubaidullah@gmail.com</a> · <a href="mailto:najahelite@gmail.com">najahelite@gmail.com</a></span>
   </div>
 </footer>
 
@@ -632,8 +649,8 @@
     name:"Sadiq Abdulbasit Ozovehe",
     role:"Featured scholar and author",
     bio:"A contemporary writer on Islamic spirituality and daily practice, Al-Farooq's work is used here to preview how an author's page and book list will render once connected to the library's dashboard.",
-    image_url:"c:\Users\popoola ademola\Documents\GitHub\najahlibrary\author.jpeg",
-    email:"najahelite@gmail.com"
+    image_url:"author.jpeg",
+    email:"abdulbaasitubaidullah@gmail.com"
   };
   var FALLBACK_BOOKS = [
     { title:"The Sealed Nectar", author_name:"Safi ur-Rahman al-Mubarakpuri", language:"English", pages:528, format:"PDF", cover_color:"#1B4B3D", file_url:"pdfs/sealed-nectar.pdf" },
@@ -716,30 +733,12 @@
   ===================================================================== */
   var CATEGORY_LABEL = { quran:"Qur'an", hadith:"Hadith", fiqh:"Fiqh", seerah:"Seerah", aqeedah:"Aqeedah", tazkiyah:"Tazkiyah", children:"Children", general:"General" };
 
-  function renderAuthor(author, books){
+  function renderAuthor(author){
     var el = document.getElementById('authorBlock');
-    var rows = (books || []).map(function(b){
-      var href = b.file_url ? escapeHtml(b.file_url) : '#';
-      var downloadAttr = b.file_url ? ' download' : '';
-      var categoryText = CATEGORY_LABEL[b.category] || (b.category ? b.category.replace(/_/g, ' ') : 'General');
-      var thumb = b.cover_image_url
-        ? '<img class="author-book-thumb" src="' + escapeHtml(b.cover_image_url) + '" alt="">'
-        : '<span class="author-book-thumb" style="background:' + escapeHtml(b.cover_color||'#1B4B3D') + ';"></span>';
-      return '<div class="author-book-row">' +
-        thumb +
-        '<span class="title">' + escapeHtml(b.title) + '</span>' +
-        '<span class="tag">' + escapeHtml(categoryText) + '</span>' +
-        '<span class="tag">' + (b.pages || '') + ' pp · ' + escapeHtml(b.language || '') + '</span>' +
-        '<a href="' + href + '" class="btn btn-outline"' + downloadAttr + '>Download</a>' +
-      '</div>';
-    }).join('');
     var portraitSrc = author && author.image_url
       ? author.image_url
       : 'author.jpeg';
-    var emailLink = author && author.email ? 'mailto:' + author.email : 'mailto:najahelite@gmail.com';
-    var authorBooksBlock = rows
-      ? '<div class="author-books">' + rows + '</div>'
-      : '<div class="author-books"><a href="' + emailLink + '" class="btn btn-outline">Email author</a></div>';
+    var authorEmail = 'abdulbaasitubaidullah@gmail.com';
     el.innerHTML =
       '<div class="author-portrait">' +
         '<img src="' + escapeHtml(portraitSrc) + '" alt="' + escapeHtml(author && author.name ? author.name : 'Featured author') + '" />' +
@@ -749,18 +748,15 @@
         '<h2>Featured author: ' + escapeHtml(author.name) + '</h2>' +
         '<span class="author-role">' + escapeHtml(author.role || '') + '</span>' +
         '<p class="author-bio">' + escapeHtml(author.bio || '') + '</p>' +
-        authorBooksBlock +
+        '<a class="author-email" href="mailto:' + authorEmail + '">' + authorEmail + '</a>' +
       '</div>';
   }
 
   function loadAuthor(){
-    if(!db){ renderAuthor(FALLBACK_AUTHOR, []); return; }
+    if(!db){ renderAuthor(FALLBACK_AUTHOR); return; }
     db.from('authors').select('*').eq('is_featured', true).limit(1).then(function(res){
-      if(res.error || !res.data || !res.data.length){ renderAuthor(FALLBACK_AUTHOR, []); return; }
-      var author = res.data[0];
-      db.from('books').select('*').eq('author_name', author.name).then(function(bookRes){
-        renderAuthor(author, (!bookRes.error && bookRes.data) ? bookRes.data : []);
-      });
+      if(res.error || !res.data || !res.data.length){ renderAuthor(FALLBACK_AUTHOR); return; }
+      renderAuthor(res.data[0]);
     });
   }
 
