@@ -275,6 +275,7 @@
   .author-block h2{ font-size:32px; margin-bottom:6px; }
   .author-role{ color:var(--ink-soft); font-size:14px; margin-bottom:22px; display:block; }
   .author-bio{ font-size:15.5px; max-width:60ch; margin-bottom:32px; }
+  .author-bio-toggle{ display:none; border:0; background:none; padding:0; color:var(--primary); font:inherit; font-size:13.5px; cursor:pointer; margin-top:-20px; margin-bottom:24px; }
   .author-email{ display:inline-flex; margin-top:0; margin-bottom:8px; color:var(--primary); font-size:14px; border-bottom:1px solid var(--gold); }
   .author-email:hover{ color:var(--gold); }
   .author-books{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line); }
@@ -405,6 +406,9 @@
     .mobile-panel a{ font-family:var(--serif); font-size:22px; color:var(--primary-dark); }
     .hero{ padding:90px 24px 110px; }
     section{ padding:72px 20px; }
+    .author-bio{ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; overflow:hidden; margin-bottom:28px; }
+    .author-bio.expanded{ display:block; -webkit-line-clamp:unset; }
+    .author-bio-toggle{ display:inline-block; }
     .footer-grid{ grid-template-columns:1fr; }
   }
   @media (max-width: 520px){
@@ -748,8 +752,16 @@
         '<h2>Featured author: ' + escapeHtml(author.name) + '</h2>' +
         '<span class="author-role">' + escapeHtml(author.role || '') + '</span>' +
         '<p class="author-bio">' + escapeHtml(author.bio || '') + '</p>' +
+        '<button type="button" class="author-bio-toggle" aria-expanded="false">Show more</button>' +
         '<a class="author-email" href="mailto:' + authorEmail + '">' + authorEmail + '</a>' +
       '</div>';
+    var bio = el.querySelector('.author-bio');
+    var bioToggle = el.querySelector('.author-bio-toggle');
+    bioToggle.addEventListener('click', function(){
+      var expanded = bio.classList.toggle('expanded');
+      bioToggle.textContent = expanded ? 'Show less' : 'Show more';
+      bioToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    });
   }
 
   function loadAuthor(){
