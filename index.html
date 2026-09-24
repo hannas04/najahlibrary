@@ -398,8 +398,9 @@
     .logo{ text-align:left; }
     .nav-toggle{ display:block; justify-self:end; }
     .mobile-panel{
-      position:fixed; inset:0; top:73px; background:var(--bg); z-index:99;
-      padding:32px; overflow-y:auto;
+      position:fixed; left:0; right:0; top:73px; bottom:0; background:var(--bg); z-index:101;
+      padding:32px; overflow-y:auto; overscroll-behavior:contain;
+      border-top:1px solid var(--line);
     }
     .mobile-panel.open{ display:block; }
     .mobile-panel ul{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:22px; }
@@ -459,6 +460,7 @@
       <li><a href="#hadith">Hadith</a></li>
       <li><a href="#author">Featured Author</a></li>
       <li><a href="#library">eBooks</a></li>
+      <li><a href="#submit-book">Upload a book</a></li>
       <li><a href="#about">About</a></li>
       <!-- <li><a href="admin.html">Dashboard</a></li> -->
     </ul>
